@@ -4,4 +4,6 @@ it('tests cypress', () => {
     cy.get('#username').type('user');
     cy.get('#password').type('pass');
     cy.get('.btn').click();
+
+    cy.get('#greeting').should('have.text',' Welcome  user');
 })

@@ -9,5 +9,5 @@ export default function Home(props) {
 };
 
 export function Greeting(props) {
-    return <h3 id="greeting"><strong> Welcome </strong> {props.username}</h3>
+    return <h3 id="greeting"><strong>Welcome </strong>{props.username}</h3>
 }
