@@ -62,7 +62,7 @@ describe('end to end login', () => {
     }, 15000);
 
     test('login', async () => {
-        await driver.findElement(By.css('#username')).sendKeys('patron');
+        await driver.findElement(By.css('#username')).sendKeys('codrut');
         await sleep(3000);
         await driver.findElement(By.css('#password')).sendKeys('pass146');
         await sleep(3000);
@@ -71,7 +71,7 @@ describe('end to end login', () => {
 
         const welcomeMessage = await driver.findElement(By.css('#greeting')).getText();
 
-        expect(welcomeMessage).toEqual("Welcome\npatron");
+        expect(welcomeMessage).toEqual("Welcome\ncodrut");
 
     }, 10000);
 });
