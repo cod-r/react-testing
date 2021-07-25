@@ -5,7 +5,11 @@ export default function Home() {
     const location = useLocation();
     return (
         <div className="text-center align-center">
-            <h3 id="greeting"><strong> Welcome </strong> {location.props.username}</h3>
+            <Greeting username={location.state.username}/>
         </div>
     );
 };
+
+function Greeting(props) {
+    return <h3 id="greeting"><strong> Welcome </strong> {props.username}</h3>
+}
