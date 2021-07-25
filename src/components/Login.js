@@ -15,7 +15,7 @@ export default function Login() {
     function handleSubmit() {
         history.push({
             pathname: '/home',
-            state: {username: username}
+            props: {username: username}
         });
     }
 
