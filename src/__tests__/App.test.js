@@ -3,8 +3,8 @@ import {render, screen} from '@testing-library/react';
 import '@testing-library/jest-dom';
 import {Greeting} from '../components/Home.js'
 import Login from "../components/Login";
-import {fireEvent, waitFor} from "@testing-library/dom";
-
+import {fireEvent} from "@testing-library/dom";
+import {Builder, By} from "selenium-webdriver";
 
 function sum(a, b) {
     return a + b;
@@ -19,7 +19,7 @@ test('welcome the user', () => {
     expect(screen.getByText('codrut')).toBeInTheDocument();
 })
 
-test('successful login', async () => {
+test('successful login', () => {
     const component = render(<Login/>);
     const usernameField = screen.getByRole('textbox');
     const passwordField = component.container.querySelector('#password');
@@ -29,16 +29,54 @@ test('successful login', async () => {
     fireEvent.change(usernameField, {target: {value: 'patron'}});
     fireEvent.change(passwordField, {target: {value: 'password'}});
     fireEvent.click(button);
-    await waitFor(() => {
-        // it hides form elements
-        expect(button).not.toBeInTheDocument();
-        expect(usernameField).not.toBeInTheDocument();
-        expect(passwordField).not.toBeInTheDocument();
 
-        // it displays success text and email address
-        const loggedInText = screen.getByText('Welcome');
-        expect(loggedInText).toBeInTheDocument();
-        const emailAddressText = screen.getByText('patron');
-        expect(emailAddressText).toBeInTheDocument();
-    });
+    // it hides form elements
+    expect(button).not.toBeInTheDocument();
+    expect(usernameField).not.toBeInTheDocument();
+    expect(passwordField).not.toBeInTheDocument();
+
+    // it displays success text and email address
+    const loggedInText = screen.getByText('Welcome');
+    expect(loggedInText).toBeInTheDocument();
+    const emailAddressText = screen.getByText('patron');
+    expect(emailAddressText).toBeInTheDocument();
 });
+
+describe('end to end login', () => {
+    let driver;
+
+    beforeAll(async () => {
+        driver = new Builder()
+            .forBrowser('chrome')
+            .usingServer('http://localhost:4444/wd/hub')
+            .build();
+        await driver.manage().window().maximize();
+
+        await driver.get(
+            `http://localhost:3000`,
+        );
+    }, 10000);
+
+    afterAll(async () => {
+        await driver.quit();
+    }, 15000);
+
+    test('login', async () => {
+        await driver.findElement(By.css('#username')).sendKeys('patron');
+        await sleep(3000);
+        await driver.findElement(By.css('#password')).sendKeys('pass146');
+        await sleep(3000);
+        await driver.findElement(By.css('.btn')).click();
+        await sleep(3000);
+
+        const welcomeMessage = await driver.findElement(By.css('#greeting')).getText();
+
+        expect(welcomeMessage).toEqual("Welcome\npatron");
+
+    }, 10000);
+});
+
+
+function sleep(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+}
