@@ -1,11 +1,9 @@
 import React from 'react';
-import {useLocation} from "react-router-dom";
 
-export default function Home() {
-    const location = useLocation();
+export default function Home(props) {
     return (
         <div className="text-center align-center">
-            <Greeting username={location.state.username}/>
+            <Greeting username={props.username}/>
         </div>
     );
 };
