@@ -5,6 +5,7 @@ import {Greeting} from '../components/Home.js'
 import Login from "../components/Login";
 import {fireEvent} from "@testing-library/dom";
 import {Builder, By} from "selenium-webdriver";
+// import cypress from "cypress/types/cypress-npm-api";
 
 function sum(a, b) {
     return a + b;
@@ -76,6 +77,13 @@ describe('end to end login', () => {
     }, 10000);
 });
 
+test('cypress', () => {
+    cy.visit('http://localhost:3000');
+
+    cy.get('#username').type('user');
+    cy.get('#password').type('pass');
+    cy.get('.btn').click();
+})
 
 function sleep(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
