@@ -10,6 +10,6 @@ export default function Home() {
     );
 };
 
-function Greeting(props) {
+export function Greeting(props) {
     return <h3 id="greeting"><strong> Welcome </strong> {props.username}</h3>
 }
